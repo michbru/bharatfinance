@@ -110,7 +110,7 @@
     <div id="hero-container">
         <section class="hero-section">
             <div class="video-background" id="videoContainer">
-                <video autoplay muted loop playsinline preload="auto" poster="images/hero-poster.jpg">
+                <video muted loop playsinline preload="auto" poster="images/hero-poster.jpg">
                     <source src="videos/background-optimized.mp4" type="video/mp4">
                 </video>
                 <div class="video-overlay"></div>
@@ -141,7 +141,10 @@
     (function() {
         var video = document.querySelector('.video-background video');
         if (!video) return;
-        function reveal() { video.classList.add('video-ready'); }
+        function reveal() {
+            video.play();
+            video.classList.add('video-ready');
+        }
         if (video.readyState >= 4) { reveal(); }
         else { video.addEventListener('canplaythrough', reveal, { once: true }); }
     })();
