@@ -1,0 +1,7 @@
+# Large original video (use optimized version instead)
+videos/officialbackground.mp4
+videos/background-compressed.mp4
+
+# OS files
+.DS_Store
+Thumbs.db

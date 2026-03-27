@@ -35,7 +35,10 @@
       "Bash(python3 -c \":*)",
       "Bash(ffmpeg -y -i officialbackground.mp4 -vf \"scale=1920:1080\" -c:v libx264 -preset slow -crf 23 -b:v 4M -maxrate 5M -bufsize 8M -an -movflags +faststart -pix_fmt yuv420p background-optimized.mp4)",
       "Skill(update-config)",
-      "Bash(gh auth:*)"
+      "Bash(gh auth:*)",
+      "Bash(git init:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)"
     ]
   }
 }
