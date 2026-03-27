@@ -136,7 +136,17 @@
     <div id="contact-container"></div>
     </main>
     <div id="footer-container"></div>
-    <!-- JavaScript -->
+    <!-- Fade in video only after it's buffered enough to play smoothly -->
+    <script>
+    (function() {
+        var video = document.querySelector('.video-background video');
+        if (!video) return;
+        function reveal() { video.classList.add('video-ready'); }
+        if (video.readyState >= 4) { reveal(); }
+        else { video.addEventListener('canplaythrough', reveal, { once: true }); }
+    })();
+    </script>
+
     <!-- JavaScript -->
     <script src="js/componentLoader.js?v=20260327"></script>
     <script src="js/app.js?v=20260327"></script>

@@ -35,6 +35,12 @@
     will-change: transform;
     transform: translateZ(0);
     backface-visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.8s ease-in;
+}
+
+.video-background video.video-ready {
+    opacity: 1;
 }
 
 /* Fallback background - black instead of green */
