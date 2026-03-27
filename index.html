@@ -32,6 +32,10 @@
     <link rel="icon" type="image/png" sizes="96x96" href="logo.png">
     <link rel="apple-touch-icon" sizes="180x180" href="logo.png">
 
+    <!-- Preload critical assets — start downloading immediately -->
+    <link rel="preload" href="images/hero-poster.jpg" as="image">
+    <link rel="preload" href="videos/background-optimized.mp4" as="video" type="video/mp4">
+
     <!-- Preconnect for performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -39,8 +43,8 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Tailwind CSS - loaded async to not block rendering -->
+    <script src="https://cdn.tailwindcss.com" defer></script>
     <script>
         tailwind.config = {
             theme: {
@@ -64,10 +68,10 @@
     </script>
 
     <!-- Core CSS -->
-    <link rel="stylesheet" href="css/modules/base.css?v=20260226">
-    <link rel="stylesheet" href="css/modules/header.css?v=20260226">
-    <link rel="stylesheet" href="css/modules/hero.css?v=20260226">
-    <link rel="stylesheet" href="css/modules/responsive.css?v=20260226">
+    <link rel="stylesheet" href="css/modules/base.css?v=20260327">
+    <link rel="stylesheet" href="css/modules/header.css?v=20260327">
+    <link rel="stylesheet" href="css/modules/hero.css?v=20260327">
+    <link rel="stylesheet" href="css/modules/responsive.css?v=20260327">
 
     <style>
         body {
@@ -82,12 +86,47 @@
         <div class="loader"></div>
     </div>
 
-    <!-- Header -->
-    <div id="header-container"></div>
+    <!-- Header - inlined for instant render -->
+    <div id="header-container">
+        <header class="header header-transparent">
+            <a href="index.html" class="logo-link">
+                <img src="logo.png" alt="Bharat Finance Logo" class="logo-image">
+                <div class="logo">Bharat Finance</div>
+            </a>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="expertise.html">Expertise</a></li>
+                    <li><a href="insights.html">Insights</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+                <button class="mobile-menu-btn">&#9776;</button>
+            </nav>
+        </header>
+    </div>
 
     <main>
-    <!-- Dynamic Components -->
-    <div id="hero-container"></div>
+    <!-- Hero - inlined so video starts loading immediately -->
+    <div id="hero-container">
+        <section class="hero-section">
+            <div class="video-background" id="videoContainer">
+                <video autoplay muted loop playsinline preload="auto" poster="images/hero-poster.jpg">
+                    <source src="videos/background-optimized.mp4" type="video/mp4">
+                </video>
+                <div class="video-overlay"></div>
+            </div>
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    Expert Financial Guidance<br>
+                    <span class="italic">for Indian Expats in Germany</span>
+                </h1>
+                <div class="cta-buttons">
+                    <a href="#contact" class="btn btn-primary">Book Consultation</a>
+                    <a href="#expertise" class="btn btn-secondary">Explore Services</a>
+                </div>
+            </div>
+        </section>
+    </div>
     <div id="intro-container"></div>
     <div id="partners-container"></div>
     <div id="testimonials-container"></div>
@@ -99,9 +138,9 @@
     <div id="footer-container"></div>
     <!-- JavaScript -->
     <!-- JavaScript -->
-    <script src="js/componentLoader.js?v=20260226"></script>
-    <script src="js/app.js?v=20260226"></script>
-    <script src="js/cookie-banner.js?v=20260226"></script>
+    <script src="js/componentLoader.js?v=20260327"></script>
+    <script src="js/app.js?v=20260327"></script>
+    <script src="js/cookie-banner.js?v=20260327"></script>
 
     <!-- Structured Data -->
     <script type="application/ld+json">

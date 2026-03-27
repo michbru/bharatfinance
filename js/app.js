@@ -1,32 +1,9 @@
 // Main application logic
 window.initializeApp = function() {
-    // Hide loading overlay once hero video is playing (or after fallback timeout)
+    // Hide loading overlay — don't wait for video, poster image covers the gap
     const loadingOverlay = document.getElementById('loadingOverlay');
     if (loadingOverlay) {
-        const heroVideo = document.querySelector('.hero-section video');
-        let overlayDismissed = false;
-
-        function hideOverlay() {
-            if (overlayDismissed) return;
-            overlayDismissed = true;
-            loadingOverlay.classList.add('hidden');
-        }
-
-        if (heroVideo) {
-            // If video is already playing (cached), hide immediately
-            if (heroVideo.readyState >= 3) {
-                setTimeout(hideOverlay, 200);
-            } else {
-                heroVideo.addEventListener('playing', function() {
-                    setTimeout(hideOverlay, 200);
-                }, { once: true });
-            }
-            // Fallback: hide after 6s max so the site isn't blocked forever
-            setTimeout(hideOverlay, 6000);
-        } else {
-            // No hero video on this page, hide after short delay
-            setTimeout(hideOverlay, 500);
-        }
+        loadingOverlay.classList.add('hidden');
     }
 
     // Smooth scroll for anchor links

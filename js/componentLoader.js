@@ -2,9 +2,9 @@
 class ComponentLoader {
     constructor() {
         // Cache-busting version - update this when deploying changes
-        this.version = '20260226';
+        this.version = '20260327';
+        // hero and header are inlined in index.html for instant loading
         this.components = [
-            { id: 'hero-container', file: 'components/hero.html' },
             { id: 'intro-container', file: 'components/intro.html' },
             { id: 'team-container', file: 'components/team.html' },
             { id: 'expertise-banner-container', file: 'components/expertise-banner.html' },
@@ -34,13 +34,14 @@ class ComponentLoader {
 
     async loadHeader() {
         try {
-            const response = await fetch('components/header.html?v=' + this.version);
-            if (!response.ok) {
-                throw new Error('Failed to load header');
-            }
-            const html = await response.text();
             const headerContainer = document.getElementById('header-container');
-            if (headerContainer) {
+            // If header is already inlined (landing page), skip fetching
+            if (headerContainer && !headerContainer.querySelector('.header')) {
+                const response = await fetch('components/header.html?v=' + this.version);
+                if (!response.ok) {
+                    throw new Error('Failed to load header');
+                }
+                const html = await response.text();
                 headerContainer.innerHTML = html;
             }
 
@@ -51,7 +52,6 @@ class ComponentLoader {
                 header.classList.add('header-transparent');
 
                 window.addEventListener('scroll', function() {
-                    // Switch to frosted glass once scrolled past the hero
                     if (window.scrollY > 80) {
                         header.classList.remove('header-transparent');
                     } else {
