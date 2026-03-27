@@ -1,0 +1,41 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(tree:*)",
+      "Bash(ls:*)",
+      "Bash(grep:*)",
+      "Read(//mnt/c/Users/micha/**)",
+      "Read(//mnt/c/Users/micha/OneDrive/**)",
+      "Bash(find /mnt/c/Users/micha/OneDrive/ -maxdepth 3 -type f \\\\\\(-iname *.jpg -o -iname *.jpeg -o -iname *.png -o -iname *.webp \\\\\\))",
+      "Bash(find /mnt/c/Users/micha/ -maxdepth 5 -type d -iname *bharat*)",
+      "Bash(find /mnt/c/Users/micha/ -maxdepth 5 -type f \\\\\\(-iname *.jpg -o -iname *.jpeg -o -iname *.png -o -iname *.webp \\\\\\) -newer /mnt/c/Users/micha/Desktop/Projekte/bharatfinance/images/teammeetingexplaining.jpeg)",
+      "Bash(find /mnt/c/Users/micha/Downloads/ -maxdepth 3 -type f \\\\\\(-iname *.jpg -o -iname *.jpeg -o -iname *.png -o -iname *.webp \\\\\\))",
+      "Bash(find /mnt/c/Users/micha/OneDrive/Dokumente/ -type f \\\\\\(-iname *.jpg -o -iname *.jpeg -o -iname *.png -o -iname *.webp \\\\\\))",
+      "Bash(cd:*)",
+      "Bash(pip3 install:*)",
+      "Bash(python3 -c \"from PIL import Image; print\\(''pillow ok''\\)\")",
+      "Bash(python3 -m pip install pillow pillow-heif)",
+      "Bash(SRC=\"OneDrive_1_25.3.2026\")",
+      "Bash(cp \"$SRC/Christoph Friedrich.jpg\" \"images/team/christoph-friedrich.jpg\")",
+      "Bash(cp \"$SRC/Kristina Meile.jpg\" \"images/team/kristina-meile.jpg\")",
+      "Bash(cp \"$SRC/Alex Banerjee.jpg\" \"images/team/alex-banerjee.jpg\")",
+      "Bash(cp \"$SRC/Gnanesh Nadar.jpg\" \"images/team/gnanesh-nadar.jpg\")",
+      "Bash(cp \"$SRC/Homepage-Insights.jpg\" \"images/sections/homepage-insights.jpg\")",
+      "Bash(cp \"$SRC/About-OurValues.jpg\" \"images/sections/about-values.jpg\")",
+      "Bash(cp \"$SRC/Insights-PensionPlanning.png\" \"images/sections/insights-pension-planning.png\")",
+      "Bash(cp \"$SRC/Homepage-OurTeam.heic\" \"images/sections/homepage-ourteam.heic\")",
+      "WebSearch",
+      "WebFetch(domain:www.horbach.de)",
+      "WebFetch(domain:horbachexpats.com)",
+      "WebFetch(domain:www.bafin.de)",
+      "Bash(ffprobe -v quiet -print_format json -show_streams /mnt/c/Users/micha/Desktop/Projekte/bharatfinance/videos/officialbackground.mp4)",
+      "Bash(ffmpeg -i /mnt/c/Users/micha/Desktop/Projekte/bharatfinance/videos/officialbackground.mp4)",
+      "Bash(ffmpeg -version)",
+      "Bash(ffprobe -v quiet -print_format json -show_streams -show_format /mnt/c/Users/micha/Desktop/Projekte/bharatfinance/videos/officialbackground.mp4)",
+      "Bash(python3 -c \":*)",
+      "Bash(ffmpeg -y -i officialbackground.mp4 -vf \"scale=1920:1080\" -c:v libx264 -preset slow -crf 23 -b:v 4M -maxrate 5M -bufsize 8M -an -movflags +faststart -pix_fmt yuv420p background-optimized.mp4)",
+      "Skill(update-config)",
+      "Bash(gh auth:*)"
+    ]
+  }
+}

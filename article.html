@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Bharat Finance - Financial insights for expats in Germany.">
+    <meta name="author" content="Bharat Finance">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph (dynamically updated by JS) -->
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://bharatfinance.de/article.html">
+    <meta property="og:title" content="Article | Bharat Finance">
+    <meta property="og:description" content="Bharat Finance - Financial insights for expats in Germany.">
+    <meta property="og:image" content="https://bharatfinance.de/logo.png">
+    <meta property="og:site_name" content="Bharat Finance">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Article | Bharat Finance">
+    <meta name="twitter:description" content="Bharat Finance - Financial insights for expats in Germany.">
+    <meta name="twitter:image" content="https://bharatfinance.de/logo.png">
+
+    <title>Article | Bharat Finance</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="logo.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="logo.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="logo.png">
+
+    <!-- Preconnect for performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#1B4D3E",
+                        accent: "#D4872C",
+                        oatmeal: "#f2eee8",
+                    },
+                    fontFamily: {
+                        display: ["Playfair Display", "serif"],
+                        sans: ["Inter", "sans-serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "0px",
+                        'pill': '9999px',
+                    },
+                },
+            },
+        };
+    </script>
+
+    <link rel="stylesheet" href="css/modules/base.css?v=20260226">
+    <link rel="stylesheet" href="css/modules/header.css?v=20260226">
+    <link rel="stylesheet" href="css/modules/responsive.css?v=20260226">
+
+    <style>
+        body {
+            font-feature-settings: "ss01", "ss02", "cv01", "cv02";
+            -webkit-font-smoothing: antialiased;
+        }
+        .line-clamp-3 {
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body class="bg-white text-slate-900 font-sans">
+
+    <!-- Navigation -->
+    <div id="header-container"></div>
+
+    <!-- Article Content -->
+    <main class="pt-24 md:pt-32 pb-16 md:pb-24 px-4 md:px-6">
+        <div id="article-content" class="max-w-4xl mx-auto">
+            <!-- Loading state -->
+            <div class="text-center py-20">
+                <div class="w-8 h-8 border-2 border-neutral-200 border-t-accent rounded-full animate-spin mx-auto"></div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Related Articles -->
+    <section id="related-articles" class="py-16 md:py-24 px-4 md:px-6 bg-neutral-50 border-t border-neutral-100 hidden">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="font-display text-3xl md:text-4xl mb-12 text-center">More Insights</h2>
+            <div id="related-grid" class="grid grid-cols-1 md:grid-cols-3 gap-8"></div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="border-t border-neutral-100 py-12">
+        <div class="max-w-7xl mx-auto px-4 md:px-6 flex flex-col md:flex-row justify-between items-center text-[10px] uppercase tracking-widest text-neutral-400 font-medium gap-4 text-center">
+            <p>&copy; 2026 Bharat Finance. All rights reserved.</p>
+            <div class="flex flex-wrap justify-center gap-4 md:gap-8">
+                <a href="privacy.html" class="hover:text-neutral-900">Privacy Policy</a>
+                <a href="terms.html" class="hover:text-neutral-900">Terms of Service</a>
+                <a href="imprint.html" class="hover:text-neutral-900">Imprint</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/blog.js"></script>
+    <script>
+        // Load header component
+        fetch('components/header.html?v=20260226')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('header-container').innerHTML = html;
+                // Mobile menu toggle
+                const btn = document.querySelector('.mobile-menu-btn');
+                const nav = document.querySelector('.nav-menu');
+                if (btn && nav) {
+                    btn.addEventListener('click', function() {
+                        nav.classList.toggle('active');
+                        var isOpen = nav.classList.contains('active');
+                        btn.textContent = isOpen ? '\u2715' : '\u2630';
+                        btn.classList.toggle('menu-open', isOpen);
+                    });
+                    document.querySelectorAll('.nav-menu a').forEach(function(link) {
+                        link.addEventListener('click', function() { nav.classList.remove('active'); btn.textContent = '\u2630'; btn.classList.remove('menu-open'); });
+                    });
+                }
+            });
+
+        document.addEventListener('DOMContentLoaded', async function() {
+            const blog = new BlogSystem();
+            const articles = await blog.loadArticles();
+
+            const params = new URLSearchParams(window.location.search);
+            const articleId = params.get('id');
+
+            if (!articleId) {
+                window.location.href = 'insights.html';
+                return;
+            }
+
+            const article = blog.getArticleById(articleId);
+
+            if (!article) {
+                document.getElementById('article-content').innerHTML = `
+                    <div class="text-center py-20">
+                        <h1 class="font-display text-4xl mb-4">Article Not Found</h1>
+                        <p class="text-neutral-500 mb-8">The article you are looking for does not exist.</p>
+                        <a href="insights.html" class="inline-block px-8 py-3 bg-accent text-white rounded-pill text-[10px] tracking-[0.2em] uppercase font-semibold hover:bg-accent/85 transition-all">
+                            Browse All Articles
+                        </a>
+                    </div>
+                `;
+                return;
+            }
+
+            // Update page title
+            document.title = article.title + ' | Bharat Finance';
+            document.querySelector('meta[name="description"]').setAttribute('content', article.excerpt);
+
+            // Update OG & Twitter meta for sharing
+            document.querySelector('meta[property="og:title"]').setAttribute('content', article.title + ' | Bharat Finance');
+            document.querySelector('meta[property="og:description"]').setAttribute('content', article.excerpt);
+            document.querySelector('meta[property="og:url"]').setAttribute('content', 'https://bharatfinance.de/article.html?id=' + articleId);
+            if (article.image) {
+                document.querySelector('meta[property="og:image"]').setAttribute('content', 'https://bharatfinance.de/' + article.image);
+                document.querySelector('meta[name="twitter:image"]').setAttribute('content', 'https://bharatfinance.de/' + article.image);
+            }
+            document.querySelector('meta[name="twitter:title"]').setAttribute('content', article.title + ' | Bharat Finance');
+            document.querySelector('meta[name="twitter:description"]').setAttribute('content', article.excerpt);
+
+            // Render article
+            document.getElementById('article-content').innerHTML = blog.renderFullArticle(article);
+
+            // Render related articles (exclude current)
+            const related = articles.filter(a => a.id !== articleId).slice(0, 3);
+            if (related.length > 0) {
+                const relatedSection = document.getElementById('related-articles');
+                relatedSection.classList.remove('hidden');
+                document.getElementById('related-grid').innerHTML = related.map(a => blog.renderArticleCard(a, false)).join('');
+            }
+        });
+    </script>
+    <script src="js/cookie-banner.js"></script>
+</body>
+</html>

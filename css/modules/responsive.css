@@ -1,0 +1,139 @@
+/* Responsive Design */
+
+/* ─── Tablet (max 1024px) ─── */
+@media (max-width: 1024px) {
+    .hero-title {
+        font-size: 3rem;
+    }
+
+    .header {
+        padding: 0.25rem 2rem;
+    }
+
+    .hero-content {
+        bottom: 3rem;
+        left: 2rem;
+    }
+}
+
+/* ─── Mobile (max 768px) ─── */
+@media (max-width: 768px) {
+    /* Header */
+    .logo-image {
+        height: 50px;
+    }
+
+    .logo {
+        font-size: 1.1rem;
+    }
+
+    .header {
+        padding: 0.5rem 1rem;
+    }
+
+    /* Mobile navigation overlay */
+    .nav-menu {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background: #1B4D3E;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 999;
+        gap: 2rem;
+    }
+
+    .nav-menu.active {
+        display: flex;
+    }
+
+    .nav-menu.active ~ .mobile-menu-btn,
+    .mobile-menu-btn.menu-open {
+        color: #fff;
+    }
+
+    .nav-menu li {
+        width: 100%;
+        text-align: center;
+    }
+
+    .nav-menu a {
+        color: #fff !important;
+        font-size: 1.2rem;
+        padding: 1rem;
+        display: block;
+    }
+
+    .mobile-menu-btn {
+        display: block;
+        position: fixed;
+        top: 1rem;
+        right: 1rem;
+        z-index: 1001;
+        font-size: 1.8rem;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0.25rem;
+        line-height: 1;
+    }
+
+    /* Hero */
+    .hero-section {
+        min-height: 85vh;
+        min-height: 85svh;
+    }
+
+    .hero-content {
+        bottom: 2rem;
+        left: 1.5rem;
+        right: 1.5rem;
+        max-width: none;
+    }
+
+    .hero-title {
+        font-size: 2rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .hero-subtitle {
+        font-size: 0.95rem;
+        margin-bottom: 2rem;
+    }
+
+    .cta-buttons {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .btn {
+        width: 100%;
+        text-align: center;
+        padding: 0.85rem 2rem;
+        font-size: 0.8rem;
+    }
+}
+
+/* ─── Small phones (max 480px) ─── */
+@media (max-width: 480px) {
+    .hero-title {
+        font-size: 1.75rem;
+    }
+
+    .hero-subtitle {
+        font-size: 0.9rem;
+    }
+
+    .logo-image {
+        height: 40px;
+    }
+
+    .logo {
+        font-size: 1rem;
+        letter-spacing: 0.05em;
+    }
+}

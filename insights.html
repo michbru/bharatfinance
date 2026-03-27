@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Financial insights and articles for expats in Germany. Pension, tax, investment, and insurance guidance.">
+    <meta name="keywords" content="expat finance blog Germany, German pension guide expats, ETF savings plan Germany, buying property expat Germany, insurance guide expats, Krankenversicherung expat">
+    <meta name="author" content="Bharat Finance">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://bharatfinance.de/insights.html">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://bharatfinance.de/insights.html">
+    <meta property="og:title" content="Insights | Bharat Finance">
+    <meta property="og:description" content="Financial insights and articles for expats in Germany. Pension, tax, investment, and insurance guidance.">
+    <meta property="og:image" content="https://bharatfinance.de/logo.png">
+    <meta property="og:site_name" content="Bharat Finance">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Insights | Bharat Finance">
+    <meta name="twitter:description" content="Financial insights and articles for expats in Germany. Pension, tax, investment, and insurance guidance.">
+    <meta name="twitter:image" content="https://bharatfinance.de/logo.png">
+
+    <title>Insights | Bharat Finance</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="logo.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="logo.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="logo.png">
+
+    <!-- Preconnect for performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#1B4D3E",
+                        accent: "#D4872C",
+                        oatmeal: "#f2eee8",
+                    },
+                    fontFamily: {
+                        display: ["Playfair Display", "serif"],
+                        sans: ["Inter", "sans-serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "0px",
+                        'pill': '9999px',
+                    },
+                },
+            },
+        };
+    </script>
+
+    <link rel="stylesheet" href="css/modules/base.css?v=20260226">
+    <link rel="stylesheet" href="css/modules/header.css?v=20260226">
+    <link rel="stylesheet" href="css/modules/responsive.css?v=20260226">
+
+    <style>
+        body {
+            font-feature-settings: "ss01", "ss02", "cv01", "cv02";
+            -webkit-font-smoothing: antialiased;
+        }
+        .line-clamp-3 {
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body class="bg-white text-slate-900 font-sans">
+
+    <!-- Navigation -->
+    <div id="header-container"></div>
+
+    <main class="pt-28">
+        <!-- Page Header -->
+        <header class="text-center pt-12 pb-16 px-6">
+            <h1 class="font-display text-5xl lg:text-7xl mb-6">Insights</h1>
+            <p class="max-w-2xl mx-auto text-neutral-500 font-light leading-relaxed">
+                Expert financial insights for expats navigating life and finances in Germany.
+            </p>
+        </header>
+
+        <!-- Featured Article (first article from JSON) -->
+        <div id="featured-article" class="max-w-7xl mx-auto px-6 mb-12"></div>
+
+        <!-- Divider -->
+        <div class="max-w-7xl mx-auto px-6"><div class="border-t border-neutral-100"></div></div>
+
+        <!-- Category Filters -->
+        <div id="category-filters" class="max-w-7xl mx-auto px-6 pt-16"></div>
+
+        <!-- Articles Grid -->
+        <div id="articles-grid" class="max-w-7xl mx-auto px-6 pb-24">
+            <!-- Loading state -->
+            <div class="text-center py-20">
+                <div class="w-8 h-8 border-2 border-neutral-200 border-t-accent rounded-full animate-spin mx-auto"></div>
+            </div>
+        </div>
+    </main>
+
+<!-- Contact Section -->
+    <div id="contact-container"></div>
+
+    <!-- Footer -->
+    <footer class="bg-neutral-50 py-16 md:py-24 px-4 md:px-6 border-t border-neutral-100">
+        <div class="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
+            <div>
+                <div class="flex items-center gap-3 mb-6">
+                    <img src="logo.png" alt="Bharat Finance" class="h-10">
+                    <div class="text-lg font-display tracking-widest uppercase font-bold text-primary">Bharat Finance</div>
+                </div>
+                <p class="text-xs text-neutral-500 leading-relaxed uppercase tracking-wider max-w-xs">
+                    Expert financial guidance for Indian expats in Germany.
+                </p>
+            </div>
+            <div>
+                <h4 class="text-[10px] font-bold tracking-[0.2em] uppercase mb-8 text-neutral-900">Services</h4>
+                <ul class="space-y-3">
+                    <li><a href="expertise.html" class="text-sm text-neutral-500 hover:text-primary transition-colors">Insurance & Protection</a></li>
+                    <li><a href="expertise.html" class="text-sm text-neutral-500 hover:text-primary transition-colors">Pension Planning</a></li>
+                    <li><a href="expertise.html" class="text-sm text-neutral-500 hover:text-primary transition-colors">Investment & Wealth</a></li>
+                    <li><a href="expertise.html" class="text-sm text-neutral-500 hover:text-primary transition-colors">Real Estate</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-[10px] font-bold tracking-[0.2em] uppercase mb-8 text-neutral-900">Company</h4>
+                <ul class="space-y-3">
+                    <li><a href="about.html" class="text-sm text-neutral-500 hover:text-primary transition-colors">About Us</a></li>
+                    <li><a href="insights.html" class="text-sm text-neutral-500 hover:text-primary transition-colors">Insights</a></li>
+                    <li><a href="index.html#contact" class="text-sm text-neutral-500 hover:text-primary transition-colors">Contact</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-[10px] font-bold tracking-[0.2em] uppercase mb-8 text-neutral-900">Contact</h4>
+                <p class="text-sm text-neutral-500">info@bharatfinance.de</p>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto mt-12 md:mt-24 pt-8 border-t border-neutral-200 flex flex-col md:flex-row justify-between items-center text-[10px] tracking-widest text-neutral-400 uppercase font-medium gap-4 text-center">
+            <p>&copy; 2026 Bharat Finance. All rights reserved.</p>
+            <div class="flex flex-wrap justify-center gap-4 md:gap-8">
+                <a href="privacy.html" class="hover:text-neutral-900">Privacy Policy</a>
+                <a href="terms.html" class="hover:text-neutral-900">Terms of Service</a>
+                <a href="imprint.html" class="hover:text-neutral-900">Imprint</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/blog.js"></script>
+    <script>
+        // Blog system
+        document.addEventListener('DOMContentLoaded', async function() {
+            const blog = new BlogSystem();
+            const articles = await blog.loadArticles();
+            let activeCategory = 'All';
+
+            function render() {
+                const filtered = blog.filterByCategory(activeCategory);
+
+                // Featured article (always show first article)
+                if (articles.length > 0) {
+                    document.getElementById('featured-article').innerHTML = blog.renderArticleCard(articles[0], true);
+                }
+
+                // Category filters
+                const categories = blog.getCategories();
+                document.getElementById('category-filters').innerHTML = blog.renderCategoryFilter(categories, activeCategory);
+
+                // Articles grid (skip first if showing as featured and category is "All")
+                const gridArticles = activeCategory === 'All' ? filtered.slice(1) : filtered;
+                if (gridArticles.length > 0) {
+                    document.getElementById('articles-grid').innerHTML = `
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16">
+                            ${gridArticles.map(a => blog.renderArticleCard(a, false)).join('')}
+                        </div>
+                    `;
+                } else {
+                    document.getElementById('articles-grid').innerHTML = `
+                        <div class="text-center py-20 text-neutral-400">
+                            <p class="text-lg">No articles in this category yet.</p>
+                        </div>
+                    `;
+                }
+
+                // Attach category filter listeners
+                document.querySelectorAll('.category-btn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        activeCategory = this.getAttribute('data-category');
+                        render();
+                    });
+                });
+            }
+
+            render();
+        });
+
+        // Load contact component
+        fetch('components/contact.html?v=20260226')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('contact-container').innerHTML = html;
+            });
+
+        // Load header component
+        fetch('components/header.html?v=20260226')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('header-container').innerHTML = html;
+                // Mobile menu toggle
+                const btn = document.querySelector('.mobile-menu-btn');
+                const nav = document.querySelector('.nav-menu');
+                if (btn && nav) {
+                    btn.addEventListener('click', function() {
+                        nav.classList.toggle('active');
+                        var isOpen = nav.classList.contains('active');
+                        btn.textContent = isOpen ? '\u2715' : '\u2630';
+                        btn.classList.toggle('menu-open', isOpen);
+                    });
+                    document.querySelectorAll('.nav-menu a').forEach(function(link) {
+                        link.addEventListener('click', function() { nav.classList.remove('active'); btn.textContent = '\u2630'; btn.classList.remove('menu-open'); });
+                    });
+                }
+            });
+
+    </script>
+    <script src="js/cookie-banner.js"></script>
+</body>
+</html>

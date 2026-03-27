@@ -1,0 +1,29 @@
+/* Header overrides for sub-pages (non-hero context) */
+/* Uses higher specificity to ensure overrides apply */
+.header.header {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    z-index: 50;
+    padding: 0.25rem 4rem;
+}
+
+.header .logo {
+    color: #1B4D3E !important;
+}
+
+.header .nav-menu a {
+    color: #1B4D3E !important;
+}
+
+.header .nav-menu a:hover {
+    color: #D4872C !important;
+}
+
+.header .mobile-menu-btn {
+    color: #1B4D3E !important;
+}
