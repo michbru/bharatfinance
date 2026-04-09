@@ -48,7 +48,167 @@ window.initializeApp = function() {
 
     // Initialize contact form if present
     window.initContactForm();
-}
+
+    // Video optimization - pause when not in viewport
+    const heroVideo = document.getElementById('heroVideo');
+    if (heroVideo) {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    heroVideo.play();
+                } else {
+                    heroVideo.pause();
+                }
+            });
+        }, { threshold: 0.5 });
+
+        observer.observe(heroVideo);
+    }
+
+    // Scroll-triggered fade-in animations
+    const animateOnScroll = () => {
+        const selectors = [
+            '#intro-container section',
+            '#team-container section',
+            '#expertise-banner-container section',
+            '#news-container section',
+            '#testimonials-container section',
+            '#partners-container section',
+            '#contact-container section',
+            '[data-animate]'
+        ];
+        const elements = document.querySelectorAll(selectors.join(','));
+
+        elements.forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'opacity 0.7s ease-out, transform 0.7s ease-out';
+        });
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        });
+
+        elements.forEach(el => observer.observe(el));
+    };
+
+    setTimeout(animateOnScroll, 100);
+
+    // Partner logo carousel - continuous seamless scroll
+    const initPartnerCarousel = () => {
+        const wrapper = document.querySelector('.partner-carousel-wrapper');
+        if (!wrapper) return;
+        const track = wrapper.querySelector('.partner-carousel-track');
+        if (!track) return;
+
+        const GAP = window.innerWidth < 768 ? 40 : 80;
+        const SPEED = 0.5;
+
+        const children = Array.from(track.children);
+        const baseItems = children.slice(0, Math.ceil(children.length / 2) || children.length);
+
+        function startAfterImagesLoad() {
+            const imgs = track.querySelectorAll('img');
+            let loaded = 0;
+            const total = imgs.length;
+            const onReady = () => { loaded++; if (loaded >= total) startScroll(); };
+
+            if (total === 0) { startScroll(); return; }
+            imgs.forEach(img => {
+                if (img.complete) loaded++;
+                else { img.addEventListener('load', onReady); img.addEventListener('error', onReady); }
+            });
+            if (loaded >= total) startScroll();
+            setTimeout(() => { if (loaded < total) startScroll(); }, 2500);
+        }
+
+        let scrollStarted = false;
+        function startScroll() {
+            if (scrollStarted) return;
+            scrollStarted = true;
+
+            const minWidth = wrapper.clientWidth * 3;
+            let safety = 0;
+            while (track.scrollWidth < minWidth && safety < 50) {
+                baseItems.forEach(item => track.appendChild(item.cloneNode(true)));
+                safety++;
+            }
+
+            let offset = 0;
+            let lastTime = null;
+
+            function step(timestamp) {
+                if (lastTime === null) lastTime = timestamp;
+                const delta = timestamp - lastTime;
+                lastTime = timestamp;
+
+                offset += SPEED * (delta / 16.667);
+
+                const first = track.firstElementChild;
+                if (first) {
+                    const itemWidth = first.offsetWidth + GAP;
+                    if (offset >= itemWidth) {
+                        offset -= itemWidth;
+                        track.appendChild(first);
+                    }
+                }
+
+                track.style.transform = 'translateX(' + (-offset) + 'px)';
+                requestAnimationFrame(step);
+            }
+
+            requestAnimationFrame(step);
+        }
+
+        startAfterImagesLoad();
+    };
+
+    setTimeout(initPartnerCarousel, 200);
+
+    // Animate stat counters when they come into view
+    const animateCounters = () => {
+        const counters = document.querySelectorAll('[data-counter]');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const target = entry.target;
+                    const finalValue = parseInt(target.getAttribute('data-counter'));
+                    const suffix = target.getAttribute('data-suffix') || '';
+                    const prefix = target.getAttribute('data-prefix') || '';
+
+                    if (!isNaN(finalValue)) {
+                        let current = 0;
+                        const duration = 1500;
+                        const step = finalValue / (duration / 30);
+                        const timer = setInterval(() => {
+                            current += step;
+                            if (current >= finalValue) {
+                                target.textContent = prefix + finalValue.toLocaleString() + suffix;
+                                clearInterval(timer);
+                            } else {
+                                target.textContent = prefix + Math.floor(current).toLocaleString() + suffix;
+                            }
+                        }, 30);
+                    }
+                    observer.unobserve(target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        counters.forEach(el => observer.observe(el));
+    };
+
+    setTimeout(animateCounters, 150);
+};
 
 // Contact form setup — called after contact component loads on ANY page
 window.initContactForm = function() {
@@ -186,168 +346,4 @@ function sendNotificationEmail(formData) {
     .catch(function(err) {
         console.error('Notification email error:', err);
     });
-
-    // Video optimization - pause when not in viewport
-    const heroVideo = document.getElementById('heroVideo');
-    if (heroVideo) {
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    heroVideo.play();
-                } else {
-                    heroVideo.pause();
-                }
-            });
-        }, { threshold: 0.5 });
-
-        observer.observe(heroVideo);
-    }
-
-    // Scroll-triggered fade-in animations
-    const animateOnScroll = () => {
-        const selectors = [
-            '#intro-container section',
-            '#team-container section',
-            '#expertise-banner-container section',
-            '#news-container section',
-            '#testimonials-container section',
-            '#partners-container section',
-            '#contact-container section',
-            '[data-animate]'
-        ];
-        const elements = document.querySelectorAll(selectors.join(','));
-
-        elements.forEach(el => {
-            el.style.opacity = '0';
-            el.style.transform = 'translateY(30px)';
-            el.style.transition = 'opacity 0.7s ease-out, transform 0.7s ease-out';
-        });
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        });
-
-        elements.forEach(el => observer.observe(el));
-    };
-
-    // Delay animation setup slightly to ensure components are loaded
-    setTimeout(animateOnScroll, 100);
-
-    // Partner logo carousel - continuous seamless scroll
-    const initPartnerCarousel = () => {
-        const wrapper = document.querySelector('.partner-carousel-wrapper');
-        if (!wrapper) return;
-        const track = wrapper.querySelector('.partner-carousel-track');
-        if (!track) return;
-
-        const GAP = window.innerWidth < 768 ? 40 : 80;
-        const SPEED = 0.5; // pixels per frame (~30px/s at 60fps)
-
-        const children = Array.from(track.children);
-        const baseItems = children.slice(0, Math.ceil(children.length / 2) || children.length);
-
-        function startAfterImagesLoad() {
-            const imgs = track.querySelectorAll('img');
-            let loaded = 0;
-            const total = imgs.length;
-            const onReady = () => { loaded++; if (loaded >= total) startScroll(); };
-
-            if (total === 0) { startScroll(); return; }
-            imgs.forEach(img => {
-                if (img.complete) loaded++;
-                else { img.addEventListener('load', onReady); img.addEventListener('error', onReady); }
-            });
-            if (loaded >= total) startScroll();
-            // Fallback in case some images never fire events
-            setTimeout(() => { if (loaded < total) startScroll(); }, 2500);
-        }
-
-        let scrollStarted = false;
-        function startScroll() {
-            if (scrollStarted) return;
-            scrollStarted = true;
-
-            // Clone enough items so the track is at least 3x the visible width
-            const minWidth = wrapper.clientWidth * 3;
-            let safety = 0;
-            while (track.scrollWidth < minWidth && safety < 50) {
-                baseItems.forEach(item => track.appendChild(item.cloneNode(true)));
-                safety++;
-            }
-
-            let offset = 0;
-            let lastTime = null;
-
-            function step(timestamp) {
-                if (lastTime === null) lastTime = timestamp;
-                const delta = timestamp - lastTime;
-                lastTime = timestamp;
-
-                offset += SPEED * (delta / 16.667);
-
-                // Recycle: when the first item scrolls fully out of view, move it to the end
-                const first = track.firstElementChild;
-                if (first) {
-                    const itemWidth = first.offsetWidth + GAP;
-                    if (offset >= itemWidth) {
-                        offset -= itemWidth;
-                        track.appendChild(first);
-                    }
-                }
-
-                track.style.transform = 'translateX(' + (-offset) + 'px)';
-                requestAnimationFrame(step);
-            }
-
-            requestAnimationFrame(step);
-        }
-
-        startAfterImagesLoad();
-    };
-
-    setTimeout(initPartnerCarousel, 200);
-
-    // Animate stat counters when they come into view
-    const animateCounters = () => {
-        const counters = document.querySelectorAll('[data-counter]');
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const target = entry.target;
-                    const finalValue = parseInt(target.getAttribute('data-counter'));
-                    const suffix = target.getAttribute('data-suffix') || '';
-                    const prefix = target.getAttribute('data-prefix') || '';
-
-                    if (!isNaN(finalValue)) {
-                        let current = 0;
-                        const duration = 1500;
-                        const step = finalValue / (duration / 30);
-                        const timer = setInterval(() => {
-                            current += step;
-                            if (current >= finalValue) {
-                                target.textContent = prefix + finalValue.toLocaleString() + suffix;
-                                clearInterval(timer);
-                            } else {
-                                target.textContent = prefix + Math.floor(current).toLocaleString() + suffix;
-                            }
-                        }, 30);
-                    }
-                    observer.unobserve(target);
-                }
-            });
-        }, { threshold: 0.5 });
-
-        counters.forEach(el => observer.observe(el));
-    };
-
-    setTimeout(animateCounters, 150);
-};
+}
