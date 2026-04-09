@@ -2,7 +2,7 @@
 class ComponentLoader {
     constructor() {
         // Cache-busting version - update this when deploying changes
-        this.version = '20260327';
+        this.version = '20260409';
         // hero and header are inlined in index.html for instant loading
         this.components = [
             { id: 'intro-container', file: 'components/intro.html' },

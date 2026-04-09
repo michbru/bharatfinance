@@ -46,184 +46,146 @@ window.initializeApp = function() {
         });
     }
 
-    // Contact form handling with HubSpot integration
+    // Initialize contact form if present
+    window.initContactForm();
+}
+
+// Contact form setup — called after contact component loads on ANY page
+window.initContactForm = function() {
     const contactForm = document.getElementById('contactForm');
-    if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
-            e.preventDefault();
+    if (!contactForm || contactForm.dataset.initialized) return;
+    contactForm.dataset.initialized = 'true';
 
-            // Get form data
-            const formData = {
-                firstName: document.getElementById('firstName').value.trim(),
-                lastName: document.getElementById('lastName').value.trim(),
-                email: document.getElementById('email').value.trim(),
-                phone: document.getElementById('phone').value.trim(),
-                interest: document.getElementById('interest').value,
-                message: document.getElementById('message').value.trim()
-            };
+    contactForm.addEventListener('submit', function(e) {
+        e.preventDefault();
 
-            console.log('Form submitted:', formData);
-
-            // Validate required fields
-            if (!formData.firstName || !formData.lastName || !formData.email || !formData.phone) {
-                alert('Please fill in all required fields.');
-                return;
-            }
-
-            // Show loading state
-            const submitBtn = contactForm.querySelector('button[type="submit"]');
-            const originalText = submitBtn.textContent;
-            submitBtn.textContent = 'Sending...';
-            submitBtn.disabled = true;
-
-            // Send notification email (fire and forget, don't block form)
-            sendNotificationEmail(formData);
-
-            // Submit to HubSpot
-            submitToHubSpot(formData)
-                .then(function() {
-                    // Success
-                    submitBtn.textContent = 'Thank you! We\'ll be in touch.';
-                    submitBtn.style.backgroundColor = '#16a34a';
-                    contactForm.reset();
-
-                    setTimeout(() => {
-                        submitBtn.textContent = originalText;
-                        submitBtn.style.backgroundColor = '';
-                        submitBtn.disabled = false;
-                    }, 3000);
-                })
-                .catch(function(error) {
-                    // Error
-                    console.error('Submission error:', error);
-                    alert('Something went wrong. Please try again or email us at info@bharatfinance.de');
-                    submitBtn.textContent = originalText;
-                    submitBtn.disabled = false;
-                });
-        });
-    }
-
-    // HubSpot Form Submission Function
-    function submitToHubSpot(formData) {
-        const portalId = '26013262';
-        const formGuid = 'a7274aa7-578b-4859-aef8-776bb2f15e84';
-        const url = `https://api.hsforms.com/submissions/v3/integration/submit/${portalId}/${formGuid}`;
-
-        // Build HubSpot payload
-        // Mixed form: Contact properties (0-1) + Company properties (0-2)
-        const payload = {
-            fields: [
-                {
-                    objectTypeId: "0-1",  // Contact property
-                    name: "firstname",
-                    value: formData.firstName
-                },
-                {
-                    objectTypeId: "0-1",  // Contact property
-                    name: "lastname",
-                    value: formData.lastName
-                },
-                {
-                    objectTypeId: "0-1",  // Contact property
-                    name: "email",
-                    value: formData.email
-                },
-                {
-                    objectTypeId: "0-2",  // Company property
-                    name: "phone",
-                    value: formData.phone
-                }
-            ],
-            context: {
-                pageUri: window.location.href,
-                pageName: document.title
-            }
+        const formData = {
+            firstName: document.getElementById('firstName').value.trim(),
+            lastName: document.getElementById('lastName').value.trim(),
+            email: document.getElementById('email').value.trim(),
+            phone: document.getElementById('phone').value.trim(),
+            interest: document.getElementById('interest').value,
+            message: document.getElementById('message').value.trim()
         };
 
-        // Add interest if selected (map to HubSpot values)
-        if (formData.interest) {
-            const interestMapping = {
-                'pension': 'Financial Security in Retirement',
-                'insurance': 'Check & Improve my existing insurance contracts.',
-                'investment': 'Investment Options in Germany',
-                'realestate': 'Invest into my own house (homeloan)',
-                'tax': 'Reduce my taxes',
-                'general': 'Other topic (describe below)'
-            };
+        console.log('Form submitted:', formData);
 
-            const hubspotValue = interestMapping[formData.interest] || formData.interest;
-
-            payload.fields.push({
-                objectTypeId: "0-1",  // Try as Contact property
-                name: "what_products_services_are_you_interested_in_",
-                value: hubspotValue
-            });
+        if (!formData.firstName || !formData.lastName || !formData.email || !formData.phone) {
+            alert('Please fill in all required fields.');
+            return;
         }
 
-        // Add message if provided
-        if (formData.message) {
-            payload.fields.push({
-                objectTypeId: "0-1",  // Try as Contact property
-                name: "message",
-                value: formData.message
-            });
-        }
+        const submitBtn = contactForm.querySelector('button[type="submit"]');
+        const originalText = submitBtn.textContent;
+        submitBtn.textContent = 'Sending...';
+        submitBtn.disabled = true;
 
-        console.log('Sending to HubSpot:', payload);
+        sendNotificationEmail(formData);
 
-        // Send to HubSpot
-        return fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(payload)
-        })
-        .then(function(response) {
-            console.log('HubSpot response status:', response.status);
+        submitToHubSpot(formData)
+            .then(function() {
+                submitBtn.textContent = 'Thank you! We\'ll be in touch.';
+                submitBtn.style.backgroundColor = '#16a34a';
+                contactForm.reset();
 
-            // Always parse the response to see error details
-            return response.json().then(function(data) {
-                if (!response.ok) {
-                    console.error('HubSpot error details:', data);
-                    throw new Error('HubSpot API error: ' + response.status + ' - ' + JSON.stringify(data));
-                }
-                console.log('HubSpot response:', data);
-                return data;
-            });
-        });
-    }
-
-    // Email notification to michael.brusis@gmail.com via FormSubmit
-    function sendNotificationEmail(formData) {
-        console.log('Sending notification email...');
-        fetch('https://formsubmit.co/ajax/michael.brusis@gmail.com', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            },
-            body: JSON.stringify({
-                _subject: 'New Bharat Finance Signup: ' + formData.firstName + ' ' + formData.lastName,
-                _template: 'table',
-                Name: formData.firstName + ' ' + formData.lastName,
-                Email: formData.email,
-                Phone: formData.phone,
-                Interest: formData.interest || 'Not specified',
-                Message: formData.message || 'No message'
+                setTimeout(function() {
+                    submitBtn.textContent = originalText;
+                    submitBtn.style.backgroundColor = '';
+                    submitBtn.disabled = false;
+                }, 10000);
             })
-        })
-        .then(function(response) {
-            console.log('FormSubmit response status:', response.status);
-            return response.json();
-        })
-        .then(function(data) {
-            console.log('FormSubmit response:', data);
-        })
-        .catch(function(err) {
-            console.error('Notification email error:', err);
+            .catch(function(error) {
+                console.error('Submission error:', error);
+                alert('Something went wrong. Please try again or email us at info@bharatfinance.de');
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            });
+    });
+};
+
+function submitToHubSpot(formData) {
+    const portalId = '26013262';
+    const formGuid = 'a7274aa7-578b-4859-aef8-776bb2f15e84';
+    const url = 'https://api.hsforms.com/submissions/v3/integration/submit/' + portalId + '/' + formGuid;
+
+    const payload = {
+        fields: [
+            { objectTypeId: "0-1", name: "firstname", value: formData.firstName },
+            { objectTypeId: "0-1", name: "lastname", value: formData.lastName },
+            { objectTypeId: "0-1", name: "email", value: formData.email },
+            { objectTypeId: "0-2", name: "phone", value: formData.phone }
+        ],
+        context: {
+            pageUri: window.location.href,
+            pageName: document.title
+        }
+    };
+
+    if (formData.interest) {
+        var interestMapping = {
+            'pension': 'Financial Security in Retirement',
+            'insurance': 'Check & Improve my existing insurance contracts.',
+            'investment': 'Investment Options in Germany',
+            'realestate': 'Invest into my own house (homeloan)',
+            'tax': 'Reduce my taxes',
+            'general': 'Other topic (describe below)'
+        };
+        payload.fields.push({
+            objectTypeId: "0-1",
+            name: "what_products_services_are_you_interested_in_",
+            value: interestMapping[formData.interest] || formData.interest
         });
     }
+
+    if (formData.message) {
+        payload.fields.push({ objectTypeId: "0-1", name: "message", value: formData.message });
+    }
+
+    console.log('Sending to HubSpot:', payload);
+
+    return fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+    })
+    .then(function(response) {
+        console.log('HubSpot response status:', response.status);
+        return response.json().then(function(data) {
+            if (!response.ok) {
+                console.error('HubSpot error details:', data);
+                throw new Error('HubSpot API error: ' + response.status + ' - ' + JSON.stringify(data));
+            }
+            console.log('HubSpot response:', data);
+            return data;
+        });
+    });
+}
+
+function sendNotificationEmail(formData) {
+    console.log('Sending notification email...');
+    fetch('https://formsubmit.co/ajax/michael.brusis@gmail.com', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+            _subject: 'New Bharat Finance Signup: ' + formData.firstName + ' ' + formData.lastName,
+            _template: 'table',
+            Name: formData.firstName + ' ' + formData.lastName,
+            Email: formData.email,
+            Phone: formData.phone,
+            Interest: formData.interest || 'Not specified',
+            Message: formData.message || 'No message'
+        })
+    })
+    .then(function(response) {
+        console.log('FormSubmit response status:', response.status);
+        return response.json();
+    })
+    .then(function(data) {
+        console.log('FormSubmit response:', data);
+    })
+    .catch(function(err) {
+        console.error('Notification email error:', err);
+    });
 
     // Video optimization - pause when not in viewport
     const heroVideo = document.getElementById('heroVideo');
