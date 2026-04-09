@@ -194,10 +194,10 @@ window.initializeApp = function() {
         });
     }
 
-    // Email notification to michael.busis@gmail.com via FormSubmit
+    // Email notification to michael.brusis@gmail.com via FormSubmit
     function sendNotificationEmail(formData) {
         console.log('Sending notification email...');
-        fetch('https://formsubmit.co/ajax/michael.busis@gmail.com', {
+        fetch('https://formsubmit.co/ajax/michael.brusis@gmail.com', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
