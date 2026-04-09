@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Bharat Finance - Financial insights for expats in Germany.">
+    <meta name="description" content="Bharat Finance - Expert financial insights for Indian expats in Germany. Pension, insurance, investment & tax guides.">
+    <meta name="keywords" content="Indian expat finance Germany, financial guide expats Germany, pension guide Indian expat, insurance expat Germany">
     <meta name="author" content="Bharat Finance">
     <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://bharatfinance.de/article.html">
 
     <!-- Open Graph (dynamically updated by JS) -->
     <meta property="og:type" content="article">
@@ -173,6 +175,30 @@
             }
             document.querySelector('meta[name="twitter:title"]').setAttribute('content', article.title + ' | Bharat Finance');
             document.querySelector('meta[name="twitter:description"]').setAttribute('content', article.excerpt);
+
+            // Update canonical URL
+            var canonical = document.querySelector('link[rel="canonical"]');
+            if (canonical) canonical.setAttribute('href', 'https://bharatfinance.de/article.html?id=' + articleId);
+
+            // Add Article structured data
+            var articleSchema = document.createElement('script');
+            articleSchema.type = 'application/ld+json';
+            articleSchema.textContent = JSON.stringify({
+                "@context": "https://schema.org",
+                "@type": "Article",
+                "headline": article.title,
+                "description": article.excerpt,
+                "image": article.image ? 'https://bharatfinance.de/' + article.image : 'https://bharatfinance.de/logo.png',
+                "datePublished": article.date,
+                "author": { "@type": "Organization", "name": "Bharat Finance" },
+                "publisher": {
+                    "@type": "Organization",
+                    "name": "Bharat Finance",
+                    "logo": { "@type": "ImageObject", "url": "https://bharatfinance.de/logo.png" }
+                },
+                "mainEntityOfPage": 'https://bharatfinance.de/article.html?id=' + articleId
+            });
+            document.head.appendChild(articleSchema);
 
             // Render article
             document.getElementById('article-content').innerHTML = blog.renderFullArticle(article);
