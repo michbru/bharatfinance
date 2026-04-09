@@ -76,11 +76,11 @@ window.initializeApp = function() {
             submitBtn.textContent = 'Sending...';
             submitBtn.disabled = true;
 
-            // Submit to HubSpot + send notification email
-            Promise.all([
-                submitToHubSpot(formData),
-                sendNotificationEmail(formData)
-            ])
+            // Send notification email (fire and forget, don't block form)
+            sendNotificationEmail(formData);
+
+            // Submit to HubSpot
+            submitToHubSpot(formData)
                 .then(function() {
                     // Success
                     submitBtn.textContent = 'Thank you! We\'ll be in touch.';
@@ -196,7 +196,8 @@ window.initializeApp = function() {
 
     // Email notification to michael.busis@gmail.com via FormSubmit
     function sendNotificationEmail(formData) {
-        return fetch('https://formsubmit.co/ajax/michael.busis@gmail.com', {
+        console.log('Sending notification email...');
+        fetch('https://formsubmit.co/ajax/michael.busis@gmail.com', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -204,14 +205,22 @@ window.initializeApp = function() {
             },
             body: JSON.stringify({
                 _subject: 'New Bharat Finance Signup: ' + formData.firstName + ' ' + formData.lastName,
+                _template: 'table',
                 Name: formData.firstName + ' ' + formData.lastName,
                 Email: formData.email,
                 Phone: formData.phone,
                 Interest: formData.interest || 'Not specified',
                 Message: formData.message || 'No message'
             })
-        }).catch(function(err) {
-            // Don't block form submission if notification fails
+        })
+        .then(function(response) {
+            console.log('FormSubmit response status:', response.status);
+            return response.json();
+        })
+        .then(function(data) {
+            console.log('FormSubmit response:', data);
+        })
+        .catch(function(err) {
             console.error('Notification email error:', err);
         });
     }
