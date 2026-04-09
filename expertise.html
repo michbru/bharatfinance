@@ -216,48 +216,7 @@
     <div id="contact-container"></div>
 
     <!-- Footer -->
-    <footer class="bg-neutral-50 py-16 md:py-24 px-4 md:px-6 border-t border-neutral-100">
-        <div class="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
-            <div>
-                <div class="flex items-center gap-3 mb-6">
-                    <img src="logo.png" alt="Bharat Finance" class="h-10">
-                    <div class="text-lg font-display tracking-widest uppercase font-bold text-primary">Bharat Finance</div>
-                </div>
-                <p class="text-xs text-neutral-500 leading-relaxed uppercase tracking-wider max-w-xs">
-                    Expert financial guidance for Indian expats in Germany.
-                </p>
-            </div>
-            <div>
-                <h4 class="text-[10px] font-bold tracking-[0.2em] uppercase mb-8 text-neutral-900">Services</h4>
-                <ul class="space-y-3">
-                    <li><a href="expertise.html" class="text-sm text-neutral-500 hover:text-primary transition-colors">Insurance & Protection</a></li>
-                    <li><a href="expertise.html" class="text-sm text-neutral-500 hover:text-primary transition-colors">Pension Planning</a></li>
-                    <li><a href="expertise.html" class="text-sm text-neutral-500 hover:text-primary transition-colors">Investment & Wealth</a></li>
-                    <li><a href="expertise.html" class="text-sm text-neutral-500 hover:text-primary transition-colors">Real Estate</a></li>
-                </ul>
-            </div>
-            <div>
-                <h4 class="text-[10px] font-bold tracking-[0.2em] uppercase mb-8 text-neutral-900">Company</h4>
-                <ul class="space-y-3">
-                    <li><a href="about.html" class="text-sm text-neutral-500 hover:text-primary transition-colors">About Us</a></li>
-                    <li><a href="insights.html" class="text-sm text-neutral-500 hover:text-primary transition-colors">Insights</a></li>
-                    <li><a href="index.html#contact" class="text-sm text-neutral-500 hover:text-primary transition-colors">Contact</a></li>
-                </ul>
-            </div>
-            <div>
-                <h4 class="text-[10px] font-bold tracking-[0.2em] uppercase mb-8 text-neutral-900">Contact</h4>
-                <p class="text-sm text-neutral-500">info@bharatfinance.de</p>
-            </div>
-        </div>
-        <div class="max-w-7xl mx-auto mt-12 md:mt-24 pt-8 border-t border-neutral-200 flex flex-col md:flex-row justify-between items-center text-[10px] tracking-widest text-neutral-400 uppercase font-medium gap-4 text-center">
-            <p>&copy; 2026 Bharat Finance. All rights reserved.</p>
-            <div class="flex flex-wrap justify-center gap-4 md:gap-8">
-                <a href="privacy.html" class="hover:text-neutral-900">Privacy Policy</a>
-                <a href="terms.html" class="hover:text-neutral-900">Terms of Service</a>
-                <a href="imprint.html" class="hover:text-neutral-900">Imprint</a>
-            </div>
-        </div>
-    </footer>
+    <div id="footer-container"></div>
 
     <script>
         // Load header component
@@ -286,6 +245,13 @@
             .then(response => response.text())
             .then(html => {
                 document.getElementById('contact-container').innerHTML = html;
+            });
+
+        // Load footer component
+        fetch('components/footer.html?v=20260226')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('footer-container').innerHTML = html;
             });
     </script>
     <script src="js/cookie-banner.js"></script>

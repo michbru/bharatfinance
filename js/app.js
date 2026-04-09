@@ -76,8 +76,11 @@ window.initializeApp = function() {
             submitBtn.textContent = 'Sending...';
             submitBtn.disabled = true;
 
-            // Submit to HubSpot
-            submitToHubSpot(formData)
+            // Submit to HubSpot + send notification email
+            Promise.all([
+                submitToHubSpot(formData),
+                sendNotificationEmail(formData)
+            ])
                 .then(function() {
                     // Success
                     submitBtn.textContent = 'Thank you! We\'ll be in touch.';
@@ -92,7 +95,7 @@ window.initializeApp = function() {
                 })
                 .catch(function(error) {
                     // Error
-                    console.error('HubSpot submission error:', error);
+                    console.error('Submission error:', error);
                     alert('Something went wrong. Please try again or email us at info@bharatfinance.de');
                     submitBtn.textContent = originalText;
                     submitBtn.disabled = false;
@@ -188,6 +191,28 @@ window.initializeApp = function() {
                 console.log('HubSpot response:', data);
                 return data;
             });
+        });
+    }
+
+    // Email notification to michael.busis@gmail.com via FormSubmit
+    function sendNotificationEmail(formData) {
+        return fetch('https://formsubmit.co/ajax/michael.busis@gmail.com', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+                _subject: 'New Bharat Finance Signup: ' + formData.firstName + ' ' + formData.lastName,
+                Name: formData.firstName + ' ' + formData.lastName,
+                Email: formData.email,
+                Phone: formData.phone,
+                Interest: formData.interest || 'Not specified',
+                Message: formData.message || 'No message'
+            })
+        }).catch(function(err) {
+            // Don't block form submission if notification fails
+            console.error('Notification email error:', err);
         });
     }
 

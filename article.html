@@ -100,19 +100,17 @@
     </section>
 
     <!-- Footer -->
-    <footer class="border-t border-neutral-100 py-12">
-        <div class="max-w-7xl mx-auto px-4 md:px-6 flex flex-col md:flex-row justify-between items-center text-[10px] uppercase tracking-widest text-neutral-400 font-medium gap-4 text-center">
-            <p>&copy; 2026 Bharat Finance. All rights reserved.</p>
-            <div class="flex flex-wrap justify-center gap-4 md:gap-8">
-                <a href="privacy.html" class="hover:text-neutral-900">Privacy Policy</a>
-                <a href="terms.html" class="hover:text-neutral-900">Terms of Service</a>
-                <a href="imprint.html" class="hover:text-neutral-900">Imprint</a>
-            </div>
-        </div>
-    </footer>
+    <div id="footer-container"></div>
 
     <script src="js/blog.js"></script>
     <script>
+        // Load footer component
+        fetch('components/footer.html?v=20260226')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('footer-container').innerHTML = html;
+            });
+
         // Load header component
         fetch('components/header.html?v=20260226')
             .then(response => response.text())
